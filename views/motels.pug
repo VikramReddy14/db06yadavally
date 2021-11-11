@@ -1,7 +1,7 @@
 extends layout
 block content
   h1= title
-  - let motels = [{motelRatings:"3 Star" , motelCost: 50, motelFacility: "complementary break fast"},{motelRatings:"5 Star", motelCost: 100, motelFacility: "swimming pool"},{motelRatings:"7 Star",motelCost: 200, motelFacility: "Gym plus Swimming Pool"}]
+  - let motels = results;
   div(class="container-fluid mt-3")
   div(class="row")
     each motel,index in motels
