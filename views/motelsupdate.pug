@@ -1,0 +1,44 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  - let motelssid = toShow._id 
+  - let motelRatings = toShow.motelRatings 
+  - let motelCost = toShow.motelCost 
+  - let motelFacility = toShow.motelFacility 
+   
+  div.row(class='mb-2') 
+    div.mr-1 ID is 
+    div #{motelssid} 
+  - let actionid = "/resource/motelss/" + motelssid 
+  form(id='motelssForm', action= actionid, method="PUT") 
+    div.form-group 
+        label.motelssAttr(for='motelRatings') motelss motelRatings 
+        input#motelRatings(type='String', name='motelRatings', value= motelRatings ) 
+    div.form-group 
+        label.motelssAttr(for='motelCost') motelss motelCost 
+        input#motelCost(type='Number', name='motelCost', value= motelCost ) 
+    div.form-group 
+        label.motelssAttr(for='motelFacility') motelss motelFacility 
+        input#motelFacility(type='String', name='motelFacility', value= motelFacility ) 
+    input(type="submit") 
+ 
+  script. 
+    document.forms['motelssForm'].addEventListener('submit', (event) => { 
+      event.preventDefault(); 
+      // TODO do something here to show user that form is being submitted 
+      fetch(event.target.action, { 
+        method: 'PUT', 
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+      }).then((resp) => { 
+        return resp.json(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Update succeded") 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Update failed " + error ) 
+      }); 
+    }); 
+ 

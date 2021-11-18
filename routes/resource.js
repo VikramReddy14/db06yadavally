@@ -19,8 +19,7 @@ router.post('/motelss', motels_controller.motelss_create_post);
 router.delete('/motelss/:id', motels_controller.motelss_delete); 
  
 // PUT request to update motels. 
-router.put('/motelss/:id', 
-motels_controller.motelss_update_put); 
+router.put('/motelss/:id', motels_controller.motelss_update_put); 
  
 // GET request for one motels. 
 router.get('/motelss/:id', motels_controller.motelss_detail); 
@@ -28,4 +27,5 @@ router.get('/motelss/:id', motels_controller.motelss_detail);
 // GET request for list of all motels items. 
 router.get('/motelss', motels_controller.motelss_view_all_Page); 
  
+
 module.exports = router;  

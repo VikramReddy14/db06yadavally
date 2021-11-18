@@ -1,0 +1,22 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  - let motelssid = toShow._id 
+  - let motelRatings = toShow.motelRatings 
+  - let motelCost = toShow.motelCost 
+  - let motelFacility = toShow.motelFacility 
+  div 
+    div.row 
+      div(class='motelssAttr mr-3') motelss ID is: 
+      div #{motelssid} 
+    div.row 
+      div(class='motelssAttr mr-3') motelss Type is: 
+      div #{motelRatings} 
+    div.row 
+      div(class='motelssAttr mr-3') motelss Size is: 
+      div #{motelFacility} 
+    div.row 
+      div(class='motelssAttr mr-3') motelss Cost is: 
+      div #{motelCost} 

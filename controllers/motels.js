@@ -24,8 +24,17 @@ exports.motelss_create_post = function(req, res) {
 }; 
  
 // Handle motelss delete form on DELETE. 
-exports.motelss_delete = function(req, res) { 
-    res.send('NOT IMPLEMENTED: motelss delete DELETE ' + req.params.id); 
+// Handle motelss delete on DELETE. 
+exports.motelss_delete = async function(req, res) { 
+    console.log("delete "  + req.params.id) 
+    try { 
+        result = await motelss.findByIdAndDelete( req.params.id) 
+        console.log("Removed " + result) 
+        res.send(result) 
+    } catch (err) { 
+        res.status(500) 
+        res.send(`{"error": Error deleting ${err}}`); 
+    } 
 }; 
 
  /*
@@ -37,7 +46,7 @@ exports.motelss_update_put = function(req, res) {
 exports.motelss_view_all_Page = async function(req, res) { 
     try{ 
         themotelss = await motelss.find(); 
-        res.render('motelss', { title: 'motelss Search Results', results: themotelss }); 
+        res.render('motels', { title: 'motels Search Results', results: themotelss }); 
     } 
     catch(err){ 
         res.status(500); 
@@ -84,8 +93,6 @@ exports.motelss_update_put = async function(req, res) {
     ${JSON.stringify(req.body)}`) 
     try { 
         let toUpdate = await motelss.findById( req.params.id) 
-        
-        
         // Do updates of properties 
         if(req.body.motelRatings)  
                toUpdate.motelRatings = req.body.motelRatings; 
@@ -101,3 +108,55 @@ exports.motelss_update_put = async function(req, res) {
 failed`); 
     } 
 }; 
+// Handle a show one view with id specified by query 
+exports.motelss_view_one_Page = async function(req, res) { 
+    console.log("single view for id "  + req.query.id) 
+    try{ 
+        result = await motelss.findById( req.query.id) 
+        res.render('motelsdetail',  
+{ title: 'motels Detail', toShow: result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
+ // Handle building the view for creating a motelss. 
+// No body, no in path parameter, no query. 
+// Does not need to be async 
+exports.motelss_create_Page =  function(req, res) { 
+    console.log("create view") 
+    try{ 
+        res.render('motelscreate', { title: 'motels Create'}); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
+// Handle building the view for updating a motelss. 
+// query provides the id 
+exports.motelss_update_Page =  async function(req, res) { 
+    console.log("update view for item "+req.query.id) 
+    try{ 
+        let result = await motelss.findById(req.query.id) 
+        res.render('motelsupdate', { title: 'motels Update', toShow: result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
+// Handle a delete one view with id from query 
+exports.motelss_delete_Page = async function(req, res) { 
+    console.log("Delete view for id "  + req.query.id) 
+    try{ 
+        result = await motelss.findById(req.query.id) 
+        res.render('motelsdelete', { title: 'motels Delete', toShow: 
+result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+};
