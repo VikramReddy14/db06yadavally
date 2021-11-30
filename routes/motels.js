@@ -1,16 +1,26 @@
 var express = require('express');
-const motels_controlers= require('../controllers/motels'); 
+const motel_controlers= require('../controllers/motels'); 
 var router = express.Router();
-
+// A little function to check if we have an authorized user and continue on 
+//or 
+// redirect to login. 
+const secured = (req, res, next) => {
+    console.log(req)
+    if (req.user){ 
+      return next(); 
+    }
+    req.session.returnTo = req.originalUrl; 
+    res.redirect("/login"); 
+  } 
 /* GET home page. */
-router.get('/', motels_controlers.motelss_view_all_Page);
+router.get('/', motel_controlers.motelss_view_all_Page);
 
-/* GET detail motelss page */ 
-router.get('/detail', motels_controlers.motelss_view_one_Page); 
-/* GET create motelss page */ 
-router.get('/create', motels_controlers.motelss_create_Page); 
-/* GET create motelss update page */ 
-router.get('/update', motels_controlers.motelss_update_Page);
-/* GET create motelss delete page */ 
-router.get('/delete', motels_controlers.motelss_delete_Page);  
+router.get('/detail', motel_controlers.motelss_view_one_Page); 
+
+router.get('/create',secured, motel_controlers.motelss_create_Page); 
+
+router.get('/update',secured,motel_controlers.motelss_update_Page);
+
+router.get('/delete',secured, motel_controlers.motelss_delete_Page);
+
 module.exports = router;
